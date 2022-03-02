@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculator</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+</head>
+<body>
+    <style>
+        * { 
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body,html {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+
+        }
+
+        html{
+            height: 100%;
+        }
+
+        body { 
+            min-height: 100vh; 
+            min-width: 100vw;
+            padding-top: 75px;;
+        }
+
+        .container{
+            display:flex;
+            flex-direction: column;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: rgba(236, 235, 234, 0.918);
+            height: 600px;
+            width: 700px;
+        }
+
+        #frame-top{
+            display: flex;
+            height: 100px;
+            width: 650px;
+            background-color: aqua;
+        }
+
+        #frame-bottom{
+            display: flex;
+            flex-direction: row;
+            height:500px;
+            width: 700px;
+            background-color: cadetblue;
+        }
+
+        #calculator{
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            width: 650px;
+        }
+
+        #frame-right{
+            display: flex;
+            flex: row;
+            background-color: chocolate;
+            height: 500px;
+            width: 50px;
+
+        }
+
+        #div-display{
+            display: flex;
+            flex-direction: row;
+            height: 100px;
+            width: 650px;
+            border: solid 1px black;
+        }
+
+        #div-operators{
+            display: flex;
+            flex-direction: row;
+            height: 100px;
+            width: 650px;
+            border: solid 1px black;
+        }
+
+        .btns-operators{
+            display: flex;
+            flex-direction: row;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        #div-numbers{
+            display: flex;
+            flex-direction: row;
+        }
+
+        .btns-numbers{
+            display: flex;
+            flex-direction: column;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+    </style>
+
+<div class="container">
+    <div id="frame-top">
+
+    </div>
+    <div id="frame-bottom">
+        <div id="calculator">
+            <div id="div-display">
+
+            </div>
+            <div id="div-operators">
+                <button class="btns-operators" id="add">+</button>
+                <button class="btns-operators" id="subtract">-</button>
+                <button class="btns-operators" id="multiply">*</button>
+                <button class="btns-operators" id="divide">/</button>
+            </div>
+            <div id="div-numbers">
+                <div class="btns-rows" id="row741">
+                    <button class="btns-numbers" id="seven">7</button>
+                    <button class="btns-numbers" id="four">4</button>
+                    <button class="btns-numbers" id="one">1</button>
+                    <button class="btns-numbers" id="inverse">+/-</button>
+                </div>
+                <div class="btns-rows" id="row8520">
+                    <button class="btns-numbers" id="eight">8</button>
+                    <button class="btns-numbers" id="five">5</button>
+                    <button class="btns-numbers" id="two">2</button>
+                    <button class="btns-numbers" id="zero">0</button>    
+                </div>
+                <div class="btns-rows" id="row963">
+                    <button class="btns-numbers" id="nine">9</button>
+                    <button class="btns-numbers" id="six">6</button>
+                    <button class="btns-numbers" id="three">3</button> 
+                    <button class="btns-numbers" id="decimal">.</button>                   
+                </div>
+
+            </div>
+        </div>
+        <div id="frame-right">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+
+    </script>
+</body>
+</html>
