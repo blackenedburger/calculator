@@ -40,84 +40,110 @@
             width: 700px;
         }
 
+        #frame-display{
+            display: flex;
+            flex-direction: row;
+            height: 150px;
+            width: 550px;
+            background-color: brown;
+            margin-left: 24px;
+            justify-content: center;
+            border-radius: 10px 10px 0 0;
+        }
+
+        #display-area{
+            display: flex;
+            flex-direction: row;
+            height: 100px;
+            width: 500px;
+            background-color: aliceblue;
+            margin-top: 25px;
+            border-radius: 10px;
+        }
+
         #frame-top{
             display: flex;
-            height: 100px;
-            width: 650px;
+            height: 50px;
+            width: 550px;
             background-color: aqua;
+            transform: skewX(-25deg);
+            margin-left: 13px;
         }
 
         #frame-bottom{
             display: flex;
             flex-direction: row;
-            height:500px;
-            width: 700px;
-            background-color: cadetblue;
+            height:350px;
+            width: 600px;
         }
 
         #calculator{
             display: flex;
             flex-direction: column;
-            height: 500px;
-            width: 650px;
+            height: 350px;
+            width: 550px;
+            background-color: purple;
         }
 
         #frame-right{
             display: flex;
             flex: row;
             background-color: chocolate;
-            height: 500px;
-            width: 50px;
-
+            height: 350px;
+            width: 25px;
+            transform: skewY(-64deg);
+            margin-top: -26px;
         }
 
-        #div-display{
-            display: flex;
-            flex-direction: row;
-            height: 100px;
-            width: 650px;
-            border: solid 1px black;
-        }
+
 
         #div-operators{
             display: flex;
             flex-direction: row;
             height: 100px;
-            width: 650px;
+            width: 550px;
             border: solid 1px black;
+            justify-content: center;
+            align-items: center;
         }
 
         .btns-operators{
             display: flex;
             flex-direction: row;
-            height: 50px;
-            width: 50px;
+            height: 40px;
+            width: 40px;
             border-radius: 50%;
+            justify-content: center;
+            margin: 10px;
         }
 
         #div-numbers{
             display: flex;
             flex-direction: row;
+            justify-content: center;
         }
 
         .btns-numbers{
             display: flex;
             flex-direction: column;
-            height: 50px;
-            width: 50px;
+            height: 40px;
+            width: 40px;
             border-radius: 50%;
+            margin: 10px;
         }
     </style>
 
 <div class="container">
+    <div id="frame-display">
+        <div id="display-area">
+
+        </div>
+    </div>
     <div id="frame-top">
 
     </div>
     <div id="frame-bottom">
         <div id="calculator">
-            <div id="div-display">
-
-            </div>
             <div id="div-operators">
                 <button class="btns-operators" id="add">+</button>
                 <button class="btns-operators" id="subtract">-</button>
@@ -143,7 +169,6 @@
                     <button class="btns-numbers" id="three">3</button> 
                     <button class="btns-numbers" id="decimal">.</button>                   
                 </div>
-
             </div>
         </div>
         <div id="frame-right">
