@@ -13,6 +13,7 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body,html {
             margin: 0;
             padding: 0;
@@ -82,7 +83,7 @@
             flex-direction: column;
             height: 350px;
             width: 550px;
-            background-color: purple;
+            background-color: rgb(101, 131, 160);
         }
 
         #frame-right{
@@ -94,8 +95,6 @@
             transform: skewY(-64deg);
             margin-top: -26px;
         }
-
-
 
         #div-operators{
             display: flex;
@@ -113,25 +112,42 @@
             height: 40px;
             width: 40px;
             border-radius: 50%;
+            border: 3px solid black;
             justify-content: center;
+            align-items: center;
             margin: 10px;
+            font-weight: 900;
+            font-size: large;
         }
 
         #div-numbers{
             display: flex;
             flex-direction: row;
             justify-content: center;
+            margin-top: 20px;
         }
 
-        .btns-numbers{
+        .btns-numbers,
+        .btns-others{
             display: flex;
             flex-direction: column;
             height: 40px;
             width: 40px;
             border-radius: 50%;
+            border: 3px solid black;
             margin: 10px;
+            justify-content: center;
+            align-items: center;
+            font-weight: 900;
+            font-size: large;
         }
     </style>
+
+
+
+
+
+
 
 <div class="container">
     <div id="frame-display">
@@ -147,15 +163,15 @@
             <div id="div-operators">
                 <button class="btns-operators" id="add">+</button>
                 <button class="btns-operators" id="subtract">-</button>
-                <button class="btns-operators" id="multiply">*</button>
+                <button class="btns-operators" id="multiply">X</button>
                 <button class="btns-operators" id="divide">/</button>
             </div>
             <div id="div-numbers">
                 <div class="btns-rows" id="row741">
                     <button class="btns-numbers" id="seven">7</button>
                     <button class="btns-numbers" id="four">4</button>
-                    <button class="btns-numbers" id="one">1</button>
-                    <button class="btns-numbers" id="inverse">+/-</button>
+                    <button class="btns-numbers" id="one" value="1">1</button>
+                    <button class="btns-others" id="inverse">+/-</button>
                 </div>
                 <div class="btns-rows" id="row8520">
                     <button class="btns-numbers" id="eight">8</button>
@@ -167,7 +183,7 @@
                     <button class="btns-numbers" id="nine">9</button>
                     <button class="btns-numbers" id="six">6</button>
                     <button class="btns-numbers" id="three">3</button> 
-                    <button class="btns-numbers" id="decimal">.</button>                   
+                    <button class="btns-others" id="decimal">.</button>                   
                 </div>
             </div>
         </div>
@@ -188,6 +204,33 @@
 
 
     <script>
+        let displayArea = document.getElementById("display-area");
+        let btnOperators = document.getElementsByClassName("btns-operators"); // need event listener
+        let btnNumbers = document.getElementsByClassName("btns-numbers");  //need event listener
+        let btnNumbersArray = [];
+        
+        // changes color of number buttens and gets their value when clicked
+        for (let i = 0; i < btnNumbers.length; i++){
+            btnNumbersArray.push(btnNumbers[i]);
+            
+            console.log(btnNumbersArray);
+            btnNumbersArray[i].addEventListener("mouseover", function () {
+                btnNumbersArray[i].style.background = "#c6c0c9";
+            })
+            btnNumbersArray[i].addEventListener("mouseout", function () {
+                btnNumbersArray[i].style.background = "white";
+            })
+            btnNumbersArray[i].addEventListener("click", function () {
+                number = Number(btnNumbersArray[i].textContent);
+                displayArea.textContent += number;
+                
+                console.log(Number(number));
+            })
+        }
+
+
+
+        //btnNumbers[i].addEventListener('mouseover', e => e.target.classList.add('mouseOver'))
 
     </script>
 </body>
