@@ -206,14 +206,17 @@
     <script>
         let displayArea = document.getElementById("display-area");
         let btnOperators = document.getElementsByClassName("btns-operators"); // need event listener
-        let btnNumbers = document.getElementsByClassName("btns-numbers");  //need event listener
+        let btnNumbers = document.getElementsByClassName("btns-numbers");  
+        let btnOthers = document.getElementsByClassName("btns-others");
         let btnNumbersArray = [];
+        let btnOthersArray = [];
+        let btnOperatorsArray = [];
         
-        // changes color of number buttens and gets their value when clicked
+        // changes color of number buttons and gets their value when clicked
         for (let i = 0; i < btnNumbers.length; i++){
             btnNumbersArray.push(btnNumbers[i]);
             
-            console.log(btnNumbersArray);
+            console.log(btnNumbersArray); // test
             btnNumbersArray[i].addEventListener("mouseover", function () {
                 btnNumbersArray[i].style.background = "#c6c0c9";
             })
@@ -224,14 +227,38 @@
                 number = Number(btnNumbersArray[i].textContent);
                 displayArea.textContent += number;
                 
-                console.log(Number(number));
+                console.log(Number(number));// test
             })
         }
 
+        // sets up the others buttons
+        for (let i = 0; i < btnOthers.length; i++){
+            btnOthersArray.push(btnOthers[i]);
+            btnOthersArray[i].addEventListener("mouseover", function(){
+                btnOthersArray[i].style.background = "#c6c0c9";
+            })
+            btnOthersArray[i].addEventListener("mouseout", function(){
+                btnOthersArray[i].style.background = "white";
+            })
+            btnOthersArray[i].addEventListener("click", function(){
+                console.log(btnOthersArray[i].textContent)
+            })
+        };
 
-
+        for (let i = 0; i < btnOperators.length; i++){
+            btnOperatorsArray.push(btnOperators[i]);
+            btnOperatorsArray[i].addEventListener("mouseover", function(){
+                btnOperatorsArray[i].style.background = "#c6c0c9";
+            })
+            btnOperatorsArray[i].addEventListener("mouseout", function(){
+                btnOperatorsArray[i].style.background = "white";
+            })
+            btnOperatorsArray[i].addEventListener("click", function(){
+                console.log(btnOperatorsArray[i].textContent)
+            })
+        }
         //btnNumbers[i].addEventListener('mouseover', e => e.target.classList.add('mouseOver'))
-
+        console.log(btnOperators)
     </script>
 </body>
 </html>
