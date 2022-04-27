@@ -128,7 +128,8 @@
         }
 
         .btns-numbers,
-        .btns-others{
+        .btns-others,
+        #equals{
             display: flex;
             flex-direction: column;
             height: 40px;
@@ -151,9 +152,11 @@
 
 <div class="container">
     <div id="frame-display">
+        <!--
         <div id="display-area">
 
         </div>
+        -->
     </div>
     <div id="frame-top">
 
@@ -163,7 +166,7 @@
             <div id="div-operators">
                 <button class="btns-operators" id="add">+</button>
                 <button class="btns-operators" id="subtract">-</button>
-                <button class="btns-operators" id="multiply">X</button>
+                <button class="btns-operators" id="multiply">x</button>
                 <button class="btns-operators" id="divide">/</button>
             </div>
             <div id="div-numbers">
@@ -185,6 +188,9 @@
                     <button class="btns-numbers" id="three">3</button> 
                     <button class="btns-others" id="decimal">.</button>                   
                 </div>
+                <div class="btns-rows">
+                    <button class="btns-operators"id="equals">=</button>"
+                </div>
             </div>
         </div>
         <div id="frame-right">
@@ -204,19 +210,41 @@
 
 
     <script>
-        let displayArea = document.getElementById("display-area");
-        let btnOperators = document.getElementsByClassName("btns-operators"); // need event listener
-        let btnNumbers = document.getElementsByClassName("btns-numbers");  
-        let btnOthers = document.getElementsByClassName("btns-others");
+        const frameDisplay = document.getElementById("frame-display");
+        //let displayArea = document.getElementById("display-area");
+        //let displayArea; = document.createElement("div");
+
+        // the variables for ther buttons and their arrays
+        let btnOperators = document.getElementsByClassName("btns-operators"); // +-/* buttons
+        let btnNumbers = document.getElementsByClassName("btns-numbers");  // numbers buttons
+        let btnOthers = document.getElementsByClassName("btns-others"); // +/- and . button
         let btnNumbersArray = [];
         let btnOthersArray = [];
         let btnOperatorsArray = [];
+        const equals = document.getElementById("equals");
+
+        // variables for calculator executing steps
+        let var1;
+        let var2;
+        let var3;
+        let varOp;
+        let varOp2;
+        let flag = 0;
+        //let flag2;
+        let answer;
+
         
-        // changes color of number buttons and gets their value when clicked
+        // create the display div also clears it if C button pressed
+        function setup(){
+            displayArea = document.createElement("div");
+            displayArea.setAttribute("id", "display-area");
+            frameDisplay.appendChild(displayArea);
+        }
+        setup()
+
+        // changes color of number buttons when hovering over and gets their value when clicked
         for (let i = 0; i < btnNumbers.length; i++){
             btnNumbersArray.push(btnNumbers[i]);
-            
-            console.log(btnNumbersArray); // test
             btnNumbersArray[i].addEventListener("mouseover", function () {
                 btnNumbersArray[i].style.background = "#c6c0c9";
             })
@@ -224,14 +252,12 @@
                 btnNumbersArray[i].style.background = "white";
             })
             btnNumbersArray[i].addEventListener("click", function () {
-                number = Number(btnNumbersArray[i].textContent);
-                displayArea.textContent += number;
-                
-                console.log(Number(number));// test
+                number = Number(btnNumbersArray[i].textContent);   // ******** number is variable here not var1
+                displayArea.textContent += number;  
             })
         }
 
-        // sets up the others buttons
+        // sets up the btnothers buttons
         for (let i = 0; i < btnOthers.length; i++){
             btnOthersArray.push(btnOthers[i]);
             btnOthersArray[i].addEventListener("mouseover", function(){
@@ -241,24 +267,102 @@
                 btnOthersArray[i].style.background = "white";
             })
             btnOthersArray[i].addEventListener("click", function(){
-                console.log(btnOthersArray[i].textContent)
+                //console.log(btnOthersArray[i].textContent) not working yet
             })
         };
 
         for (let i = 0; i < btnOperators.length; i++){
             btnOperatorsArray.push(btnOperators[i]);
-            btnOperatorsArray[i].addEventListener("mouseover", function(){
+            btnOperatorsArray[i].addEventListener("mouseover", function(){  // changes buttons of calcultaor if mouse is over it 
                 btnOperatorsArray[i].style.background = "#c6c0c9";
             })
             btnOperatorsArray[i].addEventListener("mouseout", function(){
                 btnOperatorsArray[i].style.background = "white";
             })
-            btnOperatorsArray[i].addEventListener("click", function(){
-                console.log(btnOperatorsArray[i].textContent)
+            // when operator clicked it checks to see if there are two numbers and does an operation
+            btnOperatorsArray[i].addEventListener("click", function(){ 
+                if (btnOperators[i].textContent === '='){
+                    varOp2 = '=';
+                } else {
+                    varOp = btnOperatorsArray[i].textContent
+                } // sets varOp to operator symbol that is pressed 
+                if (typeof var1 === 'undefined'){  // checks to see if if an operation is before the operator if so number is var1
+                    var1 = Number(frameDisplay.textContent)
+                    flag = 1
+
+                } else if(typeof var1 !== 'undefined'){ // checks to see if if an operation is after the operator if so number is var2
+                    flag = 2
+                    var2 = Number(frameDisplay.textContent)  
+                        if (varOp === 'x'){
+                            answer = multiply();
+                        } else if (varOp === '/'){
+                            answer = divide();
+                        } else if (varOp === '+'){
+                            answer = add();
+                        } else if (varOp === '-'){
+                            answer = subtract();
+                        }
+                    var1 = answer;
+                    flag = 1;
+                    frameDisplay.removeChild(frameDisplay.lastChild);
+                    setup()
+                    displayArea.textContent = (answer);
+                } 
+                if (varOp === '='){
+                   //answer = multiply()
+                    console.log(answer);
+                    var1 = answer;
+                    frameDisplay.removeChild(frameDisplay.lastChild);
+                    setup();
+                }
+                //displayArea.textContent = (answer);
+                console.log(`flag is ${flag}`)
+                console.log(varOp)
+                frameDisplay.removeChild(frameDisplay.lastChild);
+                setup();
+                displayArea.textContent = (answer);
+
+                
+                
+                    // when button clicken put Number(framedisplay.textcontent) into var1
+                    // put btnOperator into varOP 
+                    // remove framedisplay and make a new one possibly run setup again
+                    // or check if it exists and if it does remove it and add it again
+
             })
+        }   
+
+        function multiply(){
+            answer = var1 * var2 
+            return(answer)
         }
-        //btnNumbers[i].addEventListener('mouseover', e => e.target.classList.add('mouseOver'))
-        console.log(btnOperators)
+        function divide(){
+            answer = var1 / var2 
+            return(answer)
+        }
+        function add(){
+            answer = var1 + var2 
+            return(answer)
+        }
+        function subtract(){
+            answer = var1 - var2 
+            return(answer)
+        }
+
+/*
+            } else if (varOp === '/'){
+                var3 = (var1 / var2);
+            } else if (varOp === '+'){
+                var3 = var1 + var2;
+            } else if (varOp === '-'){
+                var3 = var1 - var2;
+            } 
+            if (varOp === '='){
+                displayArea.textContent = var1;
+                console.log('varOp === "="');
+            }
+*/
+
     </script>
 </body>
 </html>
