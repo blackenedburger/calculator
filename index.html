@@ -10,9 +10,9 @@
 <body>
     <div class="container">
         <div class="output">
-            <div class="previous-operand" id="arrayBoxTop">123</div>
-            <div class="current-operand" id="arrayBoxBottom">456</div>
-            <div class="varOp1=operand" id="arrayBoxvarOp1">+-/*</div>
+            <div  id="arrayBoxTop">333</div>
+            <div  id="arrayBoxBottom">111</div>
+            <div  id="arrayBoxvarOp1">123</div>
         </div>
         <div id="frame-display">
             
@@ -69,44 +69,91 @@
 
 
 
-        //const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
+        //const calculator = new Calculator(var1TextElement, var2TextElement)
 
 
         class Calculator {
-            constructor(previousOperandTextElement, currentOperandTextElement) {
-                this.previousOperandTextElement = previousOperandTextElement
-                this.currentOperandTextElement = currentOperandTextElement
+            constructor(var1TextElement, var2TextElement) {
+                this.var1TextElement = var1TextElement
+                this.var2TextElement = var2TextElement
                 this.clear()
             }
 
             clear() {
-                this.currentOperand = ''
-                this.previousOperand = ''
+                this.var2 = ''
+                this.var1 = ''
                 this.operation = undefined
             }
 
             delete() {
-
+                this.var2 = this.var2.toString().slice(0, -1)
+                console.log(this.var2)
             }
 
             appendNumber(number) {
-                if (number === '.' && this.currentOperand.includes('.')) return
-                this.currentOperand = this.currentOperand.toString() + number.toString()
+                if (number === '.' && this.var2.includes('.')) return
+                this.var2 = this.var2.toString() + number.toString()
             }
 
             chooseOperation(operation) {
-                console.log("hi)")
+                if (this.var2 === '') return
+                if (this.var1 !== '') {
+                    this.compute()
+                }
+                this.operation = operation
+                this.var1 = this.var2
+                this.var2 = ''
             }
 
             compute() {
+                function add(){
+                    answer = prev + current 
+                    return(answer)
+                }
+                function subtract(){
+                    answer = prev - current 
+                    return(answer)
+                }
+                function multiply(){
+                    answer = prev * current 
+                    return(answer)
+                }
+                function divide(){
+                    answer = prev / current 
+                    return(answer)
+                }
 
+                let answer;
+                const prev = parseFloat(this.var1);
+                const current = parseFloat(this.var2);
+                if (isNaN(prev) || isNaN(current)){
+                    return
+                }
+
+                if (this.operation === '+'){
+                    answer = add();
+                } else if (this.operation === '-'){
+                    answer = subtract();
+                } else if (this.operation === 'x'){
+                    answer = multiply();
+                } else if (this.operation === '/'){
+                    answer = divide();
+                } else {
+                    return
+                }
+
+                this.var2 = answer
+                this.operation = undefined;
+                this.var1 = '';
             }
 
             updateDisplay() {
-                this.currentOperandTextElement.innerText = this.currentOperand;
-                displayArea.textContent = this.currentOperand;
+                this.var2TextElement.innerText = this.var2;
+                displayArea.textContent = this.var2;
             }
 
+
+        
 
         }
 
@@ -119,27 +166,30 @@
         let numberButtons = document.getElementsByClassName("btns-numbers");  // numbers buttons
         //const numberButtons = document.querySelectorAll('btns-numbers')
 
-        let btnTwo = document.getElementsByClassName("btns-two"); // . button
+        let btnTwo = document.getElementsByClassName("btns-two"); // = and . button
 
         let numberButtonsArray = [];
         let btnOthersArray = [];
         let operatorButtonsArray = [];
 
-        const equals = document.getElementById("equals");
-        const clear = document.getElementById("clear");
-        let previousOperandTextElement = document.getElementById("arrayBoxTop");
-        let currentOperandTextElement = document.getElementById("arrayBoxBottom");
+        const equalsButton = document.getElementById("equals");
+        const clearButton = document.getElementById("clear");
+        const deleteButton = document.getElementById('delete');
+
+        let var1TextElement = document.getElementById("arrayBoxTop");
+        let var2TextElement = document.getElementById("arrayBoxBottom");
         let arrayBoxvarOp1 = document.getElementById("arrayBoxvarOp1");
         let displayArea = document.getElementById("display-area")
 
         // variables for calculator executing steps
+        /*
         let var1;
         let var2;
         let var3;
         let varOp;
         let varOp2;
         let answer;
-
+        */
 
 
         for (let i = 0; i < numberButtons.length; i++){
@@ -172,28 +222,26 @@
             })
         }
 
-        
-
-
-        /*
-        operationButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                console.log(operationButtons)
-                calculator.chooseOperation(button.innerText)
-                calculator.updateDisplay()
-            })
+        equalsButton.addEventListener('click', function (e) {
+            console.log(equalsButton.outerText)
+            calculator.compute()
+            calculator.updateDisplay()
         })
-        /*
-        numberButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                calculator.appendNumber(button.innerText)
-                calculator.updateDisplay()
-            })
+
+        clearButton.addEventListener('click', function (e) {
+            console.log("clear button pressed")
+            calculator.clear();
+            calculator.updateDisplay();
+
         })
-        */
 
+        deleteButton.addEventListener('click', function (e){
+            console.log("delete button ressed")
+            calculator.delete();
+            calculator.updateDisplay();
+        })
 
-        const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
+        const calculator = new Calculator(var1TextElement, var2TextElement)
 
 
 
