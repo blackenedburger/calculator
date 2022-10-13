@@ -10,9 +10,9 @@
 <body>
     <div class="container">
         <div class="output">
-            <div  id="arrayBoxTop">333</div>
-            <div  id="arrayBoxBottom">111</div>
-            <div  id="arrayBoxvarOp1">123</div>
+            <div  id="arrayBoxTop"></div>
+            <div  id="arrayBoxBottom"></div>
+            <div  id="arrayBoxvarOp1"></div>
         </div>
         <div id="frame-display">
             
@@ -74,8 +74,8 @@
 
         class Calculator {
             constructor(var1TextElement, var2TextElement) {
-                this.var1TextElement = var1TextElement
-                this.var2TextElement = var2TextElement
+                this.var1 = var1TextElement
+                this.var2 = var2TextElement
                 this.clear()
             }
 
@@ -90,10 +90,7 @@
                 console.log(this.var2)
             }
 
-            appendNumber(number) {
-                if (number === '.' && this.var2.includes('.')) return
-                this.var2 = this.var2.toString() + number.toString()
-            }
+            
 
             chooseOperation(operation) {
                 if (this.var2 === '') return
@@ -147,24 +144,49 @@
                 this.var1 = '';
             }
 
-            updateDisplay() {
-                this.var2TextElement.innerText = this.var2;
-                displayArea.textContent = this.var2;
+            appendNumber(number) {
+                if (number === '.' && this.var2.includes('.')) {
+                    return
+                }
+                this.var2 = this.var2.toString() + number.toString()
             }
+            
+            updateDisplay() {
 
+                displayArea.textContent = this.var2;
+                let screenDisplay = parseFloat(displayArea.textContent);
+                
+                console.log(`${screenDisplay}`, typeof screenDisplay)
+            }
+            
 
+            
+
+            getDisplayNumber(number) {
+                const stringNumber = number.toString()
+                const integerDigits = parseFloat(stringNumber.split('.')[0])
+                const decimalDigits = stringNumber.split('.')[1]
+                let integerDisplay
+                if (isNaN(integerDigits)) {
+                integerDisplay = ''
+                } else {
+                integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
+                }
+                if (decimalDigits != null) {
+                return `${integerDisplay}.${decimalDigits}`
+                } else {
+                return integerDisplay
+                }
+            }
         
 
         }
 
         const frameDisplay = document.getElementById("frame-display");
 
-        //let btnOperators = document.getElementsByClassName("btns-operators"); // +-/* buttons
         let operatorButtons = document.getElementsByClassName("btns-operators"); // +-/* buttons
 
-        //let btnNumbers = document.getElementsByClassName("btns-numbers");  // numbers buttons
         let numberButtons = document.getElementsByClassName("btns-numbers");  // numbers buttons
-        //const numberButtons = document.querySelectorAll('btns-numbers')
 
         let btnTwo = document.getElementsByClassName("btns-two"); // = and . button
 
@@ -181,17 +203,6 @@
         let arrayBoxvarOp1 = document.getElementById("arrayBoxvarOp1");
         let displayArea = document.getElementById("display-area")
 
-        // variables for calculator executing steps
-        /*
-        let var1;
-        let var2;
-        let var3;
-        let varOp;
-        let varOp2;
-        let answer;
-        */
-
-
         for (let i = 0; i < numberButtons.length; i++){
             numberButtonsArray.push(numberButtons[i]);
             numberButtonsArray[i].addEventListener("mouseover", function () {
@@ -201,9 +212,17 @@
                 numberButtonsArray[i].style.background = "white";
             })
             numberButtonsArray[i].addEventListener("click", function () {
-                number = Number(numberButtonsArray[i].textContent);  
-                calculator.appendNumber(number)
-                calculator.updateDisplay() 
+                if (numberButtonsArray[i].textContent === '.'){
+                    console.log("decimal pressed")
+                    number = numberButtonsArray[i].textContent
+                    console.log(number)
+                    calculator.appendNumber(number);
+                    calculator.updateDisplay()
+                } else {
+                    number = Number(numberButtonsArray[i].textContent);  
+                    calculator.appendNumber(number)
+                    calculator.updateDisplay() 
+                }
             })
         }
 
@@ -223,20 +242,17 @@
         }
 
         equalsButton.addEventListener('click', function (e) {
-            console.log(equalsButton.outerText)
             calculator.compute()
             calculator.updateDisplay()
         })
 
         clearButton.addEventListener('click', function (e) {
-            console.log("clear button pressed")
             calculator.clear();
             calculator.updateDisplay();
 
         })
 
         deleteButton.addEventListener('click', function (e){
-            console.log("delete button ressed")
             calculator.delete();
             calculator.updateDisplay();
         })
@@ -244,88 +260,6 @@
         const calculator = new Calculator(var1TextElement, var2TextElement)
 
 
-
-
-
-
-
-
-
-
-        /*
-        // create the display div also clears it if C button pressed
-        function setup(){
-            displayArea = document.createElement("div");
-            displayArea.setAttribute("id", "display-area");
-            frameDisplay.appendChild(displayArea);
-            var1 = "";  // number first clicked
-            var2 = "";
-            varOp1 = null; // operator clicked
-            array1 = [] // store numbers and operators
-            let answer = "" // last result
-            displayArea.textContent = "";
-            console.log(`var1 is ${var1} var2 is ${var2} varOp1 is ${varOp1}`)
-        }
-
-
-        // changes color of number buttons when hovering over and gets their value when clicked
-        for (let i = 0; i < btnNumbers.length; i++){
-            btnNumbersArray.push(btnNumbers[i]);
-            btnNumbersArray[i].addEventListener("mouseover", function () {
-                btnNumbersArray[i].style.background = "#c6c0c9";
-            })
-            btnNumbersArray[i].addEventListener("mouseout", function () {
-                btnNumbersArray[i].style.background = "white";
-            })
-            btnNumbersArray[i].addEventListener("click", function () {
-                number = Number(btnNumbersArray[i].textContent);   // ******** number is variable here not var1
-                displayArea.textContent += number;  
-            })
-        }
-
-        // sets up the btnothers buttons
-        for (let i = 0; i < btnOthers.length; i++){
-            btnOthersArray.push(btnOthers[i]);
-            btnOthersArray[i].addEventListener("mouseover", function(){
-                btnOthersArray[i].style.background = "#c6c0c9";
-            })
-            btnOthersArray[i].addEventListener("mouseout", function(){
-                btnOthersArray[i].style.background = "white";
-            })
-            btnOthersArray[i].addEventListener("click", function(){
-                //console.log(btnOthersArray[i].textContent) not working yet
-            })
-        };
-
-        for (let i = 0; i < btnOperators.length; i++){
-            btnOperatorsArray.push(btnOperators[i]);
-            btnOperatorsArray[i].addEventListener("mouseover", function(){  // changes buttons of calcultaor if mouse is over it 
-                btnOperatorsArray[i].style.background = "#c6c0c9";
-            })
-            btnOperatorsArray[i].addEventListener("mouseout", function(){
-                btnOperatorsArray[i].style.background = "white";
-            })
-            // when operator clicked it checks to see if there are two numbers and does an operation
-            btnOperatorsArray[i].addEventListener("click", function(){ 
-            })
-                class Calculator{
-                    constructor(){
-        
-                    conta
-                    }
-
-        */
-        /*    function createRow(){
-                changingRow = document.createElement("div");
-                changingRow.setAttribute('class', 'changingRow');
-                main.appendChild(changingRow);
-                }
-        
-
-
-
-                }}
-        */
     </script>
     </body>
     </html>
