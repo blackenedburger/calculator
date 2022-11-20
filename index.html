@@ -10,14 +10,17 @@
 <body>
     <div class="container">
         <div class="output">
-            <div  id="arrayBoxTop"></div>
-            <div  id="arrayBoxBottom"></div>
+
+
             <div  id="arrayBoxvarOp1"></div>
         </div>
         <div id="frame-display">
-            
+
             <div id="display-area" class="output">
-    
+                <div  id="arrayBoxTop">123</div>
+            </div>
+            <div id="display-area" class="output2">
+                <div  id="arrayBoxBottom">456</div>
             </div>
             
         </div>
@@ -73,9 +76,9 @@
 
 
         class Calculator {
-            constructor(var1TextElement, var2TextElement) {
-                this.var1 = var1TextElement
-                this.var2 = var2TextElement
+            constructor(displayArea, displayArea2) {
+                this.var1 = displayArea //top prev
+                this.var2 = displayArea2  // bottom current 
                 this.clear()
             }
 
@@ -83,6 +86,8 @@
                 this.var2 = ''
                 this.var1 = ''
                 this.operation = undefined
+                displayArea2.textContent = "";
+                displayArea.textContent = "0";
             }
 
             delete() {
@@ -125,13 +130,24 @@
                 const current = parseFloat(this.var2);
                 if (isNaN(prev) || isNaN(current)){
                     return
-                }
-
-                if (this.operation === '+'){
+                } else if (this.operation === '+'){
+                    displayArea.textContent = (`${prev} +`)                   ///kujhkjhjkhkjhjkhjkhjkhkjhkjh here
                     answer = add();
                 } else if (this.operation === '-'){
-                    answer = subtract();
+                    if (answer === isNaN){
+                        displayArea2.textContent = (this.var1 + " " + this.operation + " " + this.var2)                    
+                        answer = subtract();
+                        console.log(this.var1 + " " + this.operation + " " + prev)
+
+                    } else {
+                        displayArea2.textContent = (this.var1 + " " + this.operation + " " + this.var2)
+                        answer = subtract();
+                        console.log(this.var1 + " " + this.operation)
+                    }
                 } else if (this.operation === 'x'){
+                    displayArea2.textContent = (this.var1 + " " + this.operation + " " + this.var2)
+                    console.log(this.var1 + this.operation) 
+                    displayArea2.textContent = (this.var2);  /////////////
                     answer = multiply();
                 } else if (this.operation === '/'){
                     answer = divide();
@@ -140,6 +156,12 @@
                 }
 
                 this.var2 = answer
+                console.log(this.var2 + " operation complete")
+                let var3 = this.var2
+                console.log("line 160 " + this.var2)
+                console.log("var3 is " + var3);
+                displayArea2.textContent = (var3 + " " + this.operation); //also display on both panels
+                displayArea.textContent = var3;
                 this.operation = undefined;
                 this.var1 = '';
             }
@@ -151,14 +173,28 @@
                 this.var2 = this.var2.toString() + number.toString()
             }
             
-            updateDisplay() {
+            updateDisplay() {     ///////////////////HEREHEREHERHER HERE HERE
+
+                //displayArea.textContent = this.var2;
+                // //  this.var1 = displayArea //top prev
+                //     this.var2 = displayArea2 // bottom current
+                
+                /*
+                this.displayArea.textContent = this.getDisplayNumber(this.var2)
+                if (this.operation != null) {
+                this.displayArea2.textContent = `${this.getDisplayNumber(this.var1)} ${this.operation}`
+                } else {
+                this.displayArea2.textContent = ''
+                }
+                */
 
                 displayArea.textContent = this.var2;
-                let screenDisplay = parseFloat(displayArea.textContent);
-                
-                console.log(`${screenDisplay}`, typeof screenDisplay)
+                //let var3 = this.var2
+                //console.log("var3 is " + this.var2);
+                //if (this.operation != null) {
+                //    console.log("this.operation is null")
+                //}
             }
-            
 
             
 
@@ -198,10 +234,13 @@
         const clearButton = document.getElementById("clear");
         const deleteButton = document.getElementById('delete');
 
-        let var1TextElement = document.getElementById("arrayBoxTop");
-        let var2TextElement = document.getElementById("arrayBoxBottom");
+        let var1TextElement = document.getElementById("arrayBoxTop"); // displayArea
+        let var2TextElement = document.getElementById("arrayBoxBottom"); // displayArea2
         let arrayBoxvarOp1 = document.getElementById("arrayBoxvarOp1");
-        let displayArea = document.getElementById("display-area")
+        let displayArea = document.getElementById("arrayBoxTop")
+        let displayArea2 = document.getElementById("arrayBoxBottom")
+
+        let numberRepairArray = []
 
         for (let i = 0; i < numberButtons.length; i++){
             numberButtonsArray.push(numberButtons[i]);
@@ -213,15 +252,18 @@
             })
             numberButtonsArray[i].addEventListener("click", function () {
                 if (numberButtonsArray[i].textContent === '.'){
-                    console.log("decimal pressed")
+                    ///////////////// decimal //////////////////////
                     number = numberButtonsArray[i].textContent
-                    console.log(number)
                     calculator.appendNumber(number);
                     calculator.updateDisplay()
                 } else {
                     number = Number(numberButtonsArray[i].textContent);  
+                    //////////////// number //////////////////////////
                     calculator.appendNumber(number)
                     calculator.updateDisplay() 
+                    console.log("bottom array " + displayArea.textContent + " /top array number " + displayArea2.textContent)
+                    displayArea2.textContent = displayArea.textContent;
+                    //console.log("answer is" + answer + "var2 is" + var2);
                 }
             })
         }
@@ -236,8 +278,13 @@
                 operatorButtonsArray[i].style.background = "white";
             })
             operatorButtonsArray[i].addEventListener("click", function () {
+                let var1Operation = operatorButtonsArray[i].textContent;
+                displayArea2.textContent = (displayArea2.textContent + " " + var1Operation)
                 calculator.chooseOperation(operatorButtonsArray[i].textContent)
                 calculator.updateDisplay()
+                console.log("hi")
+                console.log("var2" + var2)
+                displayArea.textContent = this.var2;
             })
         }
 
@@ -257,7 +304,7 @@
             calculator.updateDisplay();
         })
 
-        const calculator = new Calculator(var1TextElement, var2TextElement)
+        const calculator = new Calculator(displayArea, displayArea2) //prev, current
 
 
     </script>
